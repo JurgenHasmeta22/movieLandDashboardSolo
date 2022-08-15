@@ -143,7 +143,7 @@ const Table = ({ title, rowsData, columnsData }) => {
     else if (title === 'Movies List') setTableName('movies')
     else if (title === 'Genres List') setTableName('genres')
     else if (title === 'Users List') setTableName('users')
-  }, [])
+  })
 
   async function handleDeleteRow() {
     let res
@@ -233,22 +233,19 @@ const Table = ({ title, rowsData, columnsData }) => {
       <DataGrid
         pagination
         autoHeight
-        // rows={rowsData}
         rows={rowsToShow}
         columns={columnsData}
         onSelectionModelChange={ids => {
-          // const selectedIDs = new Set(ids)
-          // const selectedRowData = rowsData.filter(row => selectedIDs.has(row.id.toString()))
           const selectedRowsData = ids.map(id => rowsToShow.find(row => row.id === id))
-
-          // console.log(selectedRowsData); the only prop for getting selected stuff wich worked
           setSelectedRows(selectedRowsData)
         }}
         checkboxSelection
         pageSize={pageSize}
         sx={{ mt: 15, mb: 15 }}
+
         // rowsPerPageOptions={[5, 10, , 15, 20, 25, 50]}
         // onPageSizeChange={newPageSize => setPageSize(newPageSize)}
+        
         components={{
           Toolbar: GridToolbar,
           Pagination: CustomPagination,
