@@ -55,8 +55,7 @@ import UserIcon from 'src/layouts/components/UserIcon'
 // ** API Icon Import with object
 import { autocompleteIconObj } from './autocompleteIconObj'
 
-const defaultSuggestionsData = [
-]
+const defaultSuggestionsData = []
 
 const categoryTitle = {
   dashboards: 'Dashboards',

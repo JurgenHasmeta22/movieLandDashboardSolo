@@ -32,7 +32,7 @@ const AppBarContent = props => {
         {/* <Autocomplete hidden={hidden} settings={settings} /> */}
         <LanguageDropdown settings={settings} saveSettings={saveSettings} />
         <ModeToggler settings={settings} saveSettings={saveSettings} />
-        <NotificationDropdown settings={settings} />        
+        <NotificationDropdown settings={settings} />
         <UserDropdown settings={settings} />
       </Box>
     </Box>

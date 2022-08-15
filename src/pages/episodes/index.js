@@ -2,8 +2,8 @@ import axios from 'axios'
 import Table from '../../components/Table'
 import Button from '@mui/material/Button'
 import { useState } from 'react'
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-import OpenInNewOutlinedIcon from '@mui/icons-material/OpenInNewOutlined';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
+import OpenInNewOutlinedIcon from '@mui/icons-material/OpenInNewOutlined'
 import { useRouter } from 'next/router'
 
 export async function getServerSideProps() {
@@ -63,10 +63,7 @@ const EpisodesPage = ({ episodes }) => {
       disableClickEventBubbling: true,
       renderCell: params => (
         <>
-          <Button
-            onClick={() => {
-            }}
-          >
+          <Button onClick={() => {}}>
             <EditOutlinedIcon />
           </Button>
           <Button
@@ -79,7 +76,7 @@ const EpisodesPage = ({ episodes }) => {
         </>
       )
     }
-  ] 
+  ]
 
   const [episodesNew, setEpisodesNew] = useState(episodes)
 

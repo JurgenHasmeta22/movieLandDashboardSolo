@@ -23,7 +23,7 @@ const MoviesPage = ({ movies }) => {
   function handleOpen(paramsRow) {
     router.push(`movies/${paramsRow.id}`)
   }
-  
+
   const columns = [
     {
       flex: 0.1,

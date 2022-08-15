@@ -13,6 +13,7 @@ import themeConfig from 'src/configs/themeConfig'
 
 // ** Components
 import Customizer from 'src/@core/components/customizer'
+
 // import Footer from './components/shared-components/footer'
 import Navigation from './components/horizontal/navigation'
 import ScrollToTop from 'src/@core/components/scroll-to-top'

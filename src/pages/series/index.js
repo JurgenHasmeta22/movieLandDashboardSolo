@@ -1,9 +1,9 @@
 import axios from 'axios'
-import Table from "../../components/Table"
-import Button from '@mui/material/Button';
+import Table from '../../components/Table'
+import Button from '@mui/material/Button'
 import { useState } from 'react'
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-import OpenInNewOutlinedIcon from '@mui/icons-material/OpenInNewOutlined';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
+import OpenInNewOutlinedIcon from '@mui/icons-material/OpenInNewOutlined'
 import { useRouter } from 'next/router'
 
 export async function getServerSideProps() {
@@ -17,7 +17,7 @@ export async function getServerSideProps() {
   }
 }
 
-const SeriesPage = ({series}) => {
+const SeriesPage = ({ series }) => {
   const router = useRouter()
 
   function handleOpen(paramsRow) {
@@ -29,31 +29,31 @@ const SeriesPage = ({series}) => {
       flex: 0.1,
       minWidth: 50,
       field: 'id',
-      headerName: 'Id',
+      headerName: 'Id'
     },
     {
       flex: 0.175,
       minWidth: 120,
       headerName: 'Title',
-      field: 'title',
+      field: 'title'
     },
     {
       flex: 0.125,
       field: 'photoSrc',
       minWidth: 80,
-      headerName: 'Photo Source',
+      headerName: 'Photo Source'
     },
     {
       flex: 0.175,
       minWidth: 140,
       field: 'ratingImdb',
-      headerName: 'Rating Imdb',
+      headerName: 'Rating Imdb'
     },
     {
       flex: 0.175,
       minWidth: 140,
       field: 'releaseYear',
-      headerName: 'Release Year',
+      headerName: 'Release Year'
     },
     {
       field: '',
@@ -63,11 +63,7 @@ const SeriesPage = ({series}) => {
       disableClickEventBubbling: true,
       renderCell: params => (
         <>
-          <Button
-            onClick={() => {
-              
-            }}
-          >
+          <Button onClick={() => {}}>
             <EditOutlinedIcon />
           </Button>
           <Button
@@ -84,14 +80,7 @@ const SeriesPage = ({series}) => {
 
   const [seriesNew, setSeriesNew] = useState(series)
 
-  return (
-    <Table 
-    title = {"Series List"}
-    rowsData = {series}
-    columnsData = {columns}
-    />
-  )
+  return <Table title={'Series List'} rowsData={series} columnsData={columns} />
 }
 
 export default SeriesPage
-

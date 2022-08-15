@@ -2,10 +2,6 @@
 import Head from 'next/head'
 import { Router } from 'next/router'
 
-
-
-
-
 // ** Loader Import
 import NProgress from 'nprogress'
 
@@ -93,42 +89,37 @@ const App = props => {
   const aclAbilities = Component.acl ?? defaultACLObj
 
   return (
-    
-      <CacheProvider value={emotionCache}>
-        <Head>
-          <title>{`${themeConfig.templateName} - Admin Dashboard`}</title>
-          <meta
-            name='description'
-            content={`${themeConfig.templateName} - Admin Dashboard`}
-          />
-          <meta name='keywords' content='Movie Land24 - Admin Dashboard' />
-          <meta name='viewport' content='initial-scale=1, width=device-width' />
-        </Head>
+    <CacheProvider value={emotionCache}>
+      <Head>
+        <title>{`${themeConfig.templateName} - Admin Dashboard`}</title>
+        <meta name='description' content={`${themeConfig.templateName} - Admin Dashboard`} />
+        <meta name='keywords' content='Movie Land24 - Admin Dashboard' />
+        <meta name='viewport' content='initial-scale=1, width=device-width' />
+      </Head>
 
-        <AuthProvider>
-          <SettingsProvider {...(setConfig ? { pageSettings: setConfig() } : {})}>
-            <SettingsConsumer>
-              {({ settings }) => {
-                return (
-                  <ThemeComponent settings={settings}>
-                    <WindowWrapper>
-                      <Guard authGuard={authGuard} guestGuard={guestGuard}>
-                        <AclGuard aclAbilities={aclAbilities} guestGuard={guestGuard}>
-                          {getLayout(<Component {...pageProps} />)}
-                        </AclGuard>
-                      </Guard>
-                    </WindowWrapper>
-                    <ReactHotToast>
-                      <Toaster position={settings.toastPosition} toastOptions={{ className: 'react-hot-toast' }} />
-                    </ReactHotToast>
-                  </ThemeComponent>
-                )
-              }}
-            </SettingsConsumer>
-          </SettingsProvider>
-        </AuthProvider>
-      </CacheProvider>
-   
+      <AuthProvider>
+        <SettingsProvider {...(setConfig ? { pageSettings: setConfig() } : {})}>
+          <SettingsConsumer>
+            {({ settings }) => {
+              return (
+                <ThemeComponent settings={settings}>
+                  <WindowWrapper>
+                    <Guard authGuard={authGuard} guestGuard={guestGuard}>
+                      <AclGuard aclAbilities={aclAbilities} guestGuard={guestGuard}>
+                        {getLayout(<Component {...pageProps} />)}
+                      </AclGuard>
+                    </Guard>
+                  </WindowWrapper>
+                  <ReactHotToast>
+                    <Toaster position={settings.toastPosition} toastOptions={{ className: 'react-hot-toast' }} />
+                  </ReactHotToast>
+                </ThemeComponent>
+              )
+            }}
+          </SettingsConsumer>
+        </SettingsProvider>
+      </AuthProvider>
+    </CacheProvider>
   )
 }
 

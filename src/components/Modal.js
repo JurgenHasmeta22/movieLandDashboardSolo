@@ -18,9 +18,7 @@ const Modal = ({ openDialog, setOpenDialog, Dialog, title, children, actions }) 
     >
       <DialogTitle id='form-dialog-title'>{title}</DialogTitle>
       <DialogContent>{children}</DialogContent>
-      <DialogActions className='dialog-actions-dense'>
-        {actions}
-      </DialogActions>
+      <DialogActions className='dialog-actions-dense'>{actions}</DialogActions>
     </Dialog>
   )
 }

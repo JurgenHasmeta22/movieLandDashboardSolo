@@ -46,9 +46,7 @@ const UserLayout = ({ children }) => {
             // Uncomment the below line when using server-side menu in horizontal layout and comment the above line
             // horizontalNavItems: ServerSideHorizontalNavItems(),
             // ** AppBar Content
-            horizontalAppBarContent: () => (
-              <HorizontalAppBarContent settings={settings} saveSettings={saveSettings} />
-            )
+            horizontalAppBarContent: () => <HorizontalAppBarContent settings={settings} saveSettings={saveSettings} />
           }
         : {
             // ** Navigation Items
@@ -68,7 +66,6 @@ const UserLayout = ({ children }) => {
           })}
     >
       {children}
-      
     </Layout>
   )
 }

@@ -125,6 +125,7 @@ const Table = ({ title, rowsData, columnsData }) => {
   const [addSerie, setAddSerie] = useState({ title: '', photoSrc: '', releaseYear: '', ratingImdb: '' })
   const [addEpisode, setAddEpisode] = useState({ title: '', photoSrc: '', videoSrc: '', description: '', serieId: 1 })
   const [addGenre, setAddGenre] = useState({ name: '' })
+
   const [addMovie, setAddMovie] = useState({
     title: '',
     videoSrc: '',
@@ -239,6 +240,7 @@ const Table = ({ title, rowsData, columnsData }) => {
           // const selectedIDs = new Set(ids)
           // const selectedRowData = rowsData.filter(row => selectedIDs.has(row.id.toString()))
           const selectedRowsData = ids.map(id => rowsToShow.find(row => row.id === id))
+
           // console.log(selectedRowsData); the only prop for getting selected stuff wich worked
           setSelectedRows(selectedRowsData)
         }}
