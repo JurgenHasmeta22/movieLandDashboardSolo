@@ -215,6 +215,7 @@ const Table = ({ title, rowsData, columnsData }) => {
     setSortModelOrder(sortModel[0]?.sort)
   }
   function handleFilterModelChange(filterModel) {
+    console.log(filterModel)
     setSearchedTerm(filterModel.quickFilterValues[0])
   }
   return (
@@ -285,27 +286,27 @@ const Table = ({ title, rowsData, columnsData }) => {
           <>
             {tableName === 'series' ? (
               <>
-                <Button onClick={() => setOpenDialog(false)}>Cancel & onClose</Button>
+                <Button onClick={() => setOpenDialogAdd(false)}>Cancel & onClose</Button>
                 <Button onClick={() => handleAddSerie()}>Confirm</Button>
               </>
             ) : tableName === 'movies' ? (
               <>
-                <Button onClick={() => setOpenDialog(false)}>Cancel & onClose</Button>
+                <Button onClick={() => setOpenDialogAdd(false)}>Cancel & onClose</Button>
                 <Button onClick={() => handleAddMovie()}>Confirm</Button>{' '}
               </>
             ) : tableName === 'users' ? (
               <>
-                <Button onClick={() => setOpenDialog(false)}>Cancel & onClose</Button>
+                <Button onClick={() => setOpenDialogAdd(false)}>Cancel & onClose</Button>
                 <Button onClick={() => handleAddUser()}>Confirm</Button>{' '}
               </>
             ) : tableName === 'genres' ? (
               <>
-                <Button onClick={() => setOpenDialog(false)}>Cancel & onClose</Button>
+                <Button onClick={() => setOpenDialogAdd(false)}>Cancel & onClose</Button>
                 <Button onClick={() => handleAddGenre()}>Confirm</Button>{' '}
               </>
             ) : tableName === 'episodes' ? (
               <>
-                <Button onClick={() => setOpenDialog(false)}>Cancel & onClose</Button>
+                <Button onClick={() => setOpenDialogAdd(false)}>Cancel & onClose</Button>
                 <Button onClick={() => handleAddEpisode()}>Confirm</Button>{' '}
               </>
             ) : null}

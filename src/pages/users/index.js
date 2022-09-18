@@ -5,6 +5,7 @@ import { useState } from 'react'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import OpenInNewOutlinedIcon from '@mui/icons-material/OpenInNewOutlined'
 import { useRouter } from 'next/router'
+import { getGridNumericOperators, getGridStringOperators } from '@mui/x-data-grid'
 
 export async function getServerSideProps() {
   const url = `http://localhost:4000/users`
@@ -29,25 +30,53 @@ const UsersPage = ({ users }) => {
       flex: 0.1,
       minWidth: 50,
       field: 'id',
-      headerName: 'Id'
+      headerName: 'Id',
+      extendType: 'number',
+      filterOperators: getGridNumericOperators().filter(
+        operator => operator.value === '>' || operator.value === '<' || operator.value === '='
+      )
     },
     {
       flex: 0.175,
       minWidth: 120,
       headerName: 'Username',
-      field: 'userName'
+      field: 'userName',
+      extendType: 'string',
+      filterOperators: getGridStringOperators().filter(
+        operator =>
+          operator.value === 'contains' ||
+          operator.value === 'equals' ||
+          operator.value === 'startsWith' ||
+          operator.value === 'endsWith'
+      )
     },
     {
       flex: 0.125,
       field: 'email',
       minWidth: 80,
-      headerName: 'Email'
+      headerName: 'Email',
+      extendType: 'string',
+      filterOperators: getGridStringOperators().filter(
+        operator =>
+          operator.value === 'contains' ||
+          operator.value === 'equals' ||
+          operator.value === 'startsWith' ||
+          operator.value === 'endsWith'
+      )
     },
     {
       flex: 0.175,
       minWidth: 140,
       field: 'password',
-      headerName: 'Password'
+      headerName: 'Password',
+      extendType: 'string',
+      filterOperators: getGridStringOperators().filter(
+        operator =>
+          operator.value === 'contains' ||
+          operator.value === 'equals' ||
+          operator.value === 'startsWith' ||
+          operator.value === 'endsWith'
+      )
     },
     {
       field: '',
@@ -55,6 +84,7 @@ const UsersPage = ({ users }) => {
       sortable: false,
       width: 200,
       disableClickEventBubbling: true,
+      filterable: false,
       renderCell: params => (
         <>
           <Button

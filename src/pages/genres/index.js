@@ -5,6 +5,7 @@ import { useState } from 'react'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import OpenInNewOutlinedIcon from '@mui/icons-material/OpenInNewOutlined'
 import { useRouter } from 'next/router'
+import { getGridNumericOperators, getGridStringOperators } from '@mui/x-data-grid'
 
 export async function getServerSideProps() {
   const url = `http://localhost:4000/genres`
@@ -29,13 +30,25 @@ const GenresPage = ({ genres }) => {
       flex: 0.25,
       minWidth: 290,
       field: 'id',
-      headerName: 'Id'
+      headerName: 'Id',
+      extendType: 'number',
+      filterOperators: getGridNumericOperators().filter(
+        operator => operator.value === '>' || operator.value === '<' || operator.value === '='
+      )
     },
     {
       flex: 0.175,
       minWidth: 120,
       headerName: 'Type',
-      field: 'name'
+      field: 'name',
+      extendType: 'string',
+      filterOperators: getGridStringOperators().filter(
+        operator =>
+          operator.value === 'contains' ||
+          operator.value === 'equals' ||
+          operator.value === 'startsWith' ||
+          operator.value === 'endsWith'
+      )
     },
     {
       field: '',
@@ -43,6 +56,7 @@ const GenresPage = ({ genres }) => {
       sortable: false,
       width: 200,
       disableClickEventBubbling: true,
+      filterable: false,
       renderCell: params => (
         <>
           <Button
