@@ -33,7 +33,7 @@ const SeriesPage = ({ series }) => {
       headerName: 'Id',
       extendType: 'number',
       filterOperators: getGridNumericOperators().filter(
-        operator => operator.value === 'gt' || operator.value === 'lt' || operator.value === 'equals'      )
+        operator => operator.value === '>' || operator.value === '<' || operator.value === '=')
     },
     {
       flex: 0.175,
@@ -70,7 +70,7 @@ const SeriesPage = ({ series }) => {
       headerName: 'Rating Imdb',
       extendType: 'number',
       filterOperators: getGridNumericOperators().filter(
-        operator => operator.value === 'gt' || operator.value === 'lt' || operator.value === 'equals'      )
+        operator => operator.value === '>' || operator.value === '<' || operator.value === '=')
     },
     {
       flex: 0.175,
@@ -79,7 +79,7 @@ const SeriesPage = ({ series }) => {
       headerName: 'Release Year',
       extendType: 'number',
       filterOperators: getGridNumericOperators().filter(
-        operator => operator.value === 'gt' || operator.value === 'lt' || operator.value === 'equals'      )
+        operator => operator.value === '>' || operator.value === '<' || operator.value === '=')
     },
     {
       field: '',

@@ -33,7 +33,7 @@ const GenresPage = ({ genres }) => {
       headerName: 'Id',
       extendType: 'number',
       filterOperators: getGridNumericOperators().filter(
-        operator => operator.value === 'gt' || operator.value === 'lt' || operator.value === 'equals'
+        operator => operator.value === '>' || operator.value === '<' || operator.value === '='
       )
     },
     {
