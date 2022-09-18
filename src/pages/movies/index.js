@@ -30,8 +30,7 @@ const MoviesPage = ({ movies }) => {
       headerName: 'Id',
       extendType: 'number',
       filterOperators: getGridNumericOperators().filter(
-        operator => operator.value === '>' || operator.value === '<' || operator.value === '='
-      )
+        operator => operator.value === 'gt' || operator.value === 'lt' || operator.value === 'equals'      )
     },
     {
       flex: 0.175,
@@ -96,8 +95,7 @@ const MoviesPage = ({ movies }) => {
       headerName: 'Duration',
       extendType: 'number',
       filterOperators: getGridNumericOperators().filter(
-        operator => operator.value === '>' || operator.value === '<' || operator.value === '='
-      )
+        operator => operator.value === 'gt' || operator.value === 'lt' || operator.value === 'equals'      )
     },
     {
       flex: 0.175,
@@ -106,8 +104,7 @@ const MoviesPage = ({ movies }) => {
       headerName: 'Rating Imdb',
       extendType: 'number',
       filterOperators: getGridNumericOperators().filter(
-        operator => operator.value === '>' || operator.value === '<' || operator.value === '='
-      )
+        operator => operator.value === 'gt' || operator.value === 'lt' || operator.value === 'equals'      )
     },
     {
       flex: 0.175,
@@ -116,8 +113,7 @@ const MoviesPage = ({ movies }) => {
       headerName: 'Release Year',
       extendType: 'number',
       filterOperators: getGridNumericOperators().filter(
-        operator => operator.value === '>' || operator.value === '<' || operator.value === '='
-      )
+        operator => operator.value === 'gt' || operator.value === 'lt' || operator.value === 'equals'      )
     },
     {
       flex: 0.175,
@@ -140,8 +136,7 @@ const MoviesPage = ({ movies }) => {
       headerName: 'Views',
       extendType: 'number',
       filterOperators: getGridNumericOperators().filter(
-        operator => operator.value === '>' || operator.value === '<' || operator.value === '='
-      )
+        operator => operator.value === 'gt' || operator.value === 'lt' || operator.value === 'equals'      )
     },
     {
       field: '',

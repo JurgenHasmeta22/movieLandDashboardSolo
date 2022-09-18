@@ -33,8 +33,7 @@ const UsersPage = ({ users }) => {
       headerName: 'Id',
       extendType: 'number',
       filterOperators: getGridNumericOperators().filter(
-        operator => operator.value === '>' || operator.value === '<' || operator.value === '='
-      )
+        operator => operator.value === 'gt' || operator.value === 'lt' || operator.value === 'equals'      )
     },
     {
       flex: 0.175,

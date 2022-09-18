@@ -137,6 +137,11 @@ const Table = ({ title, rowsData, columnsData }) => {
     releaseYear: '',
     description: ''
   })
+  const [filterColumn, setFilterColumn] = useState({
+    filterColumnName: '',
+    filterColumnOperator: '',
+    filterColumnValue: null
+  })
   useEffect(() => {
     if (title === 'Series List') setTableName('series')
     else if (title === 'Episodes List') setTableName('episodes')
@@ -145,7 +150,7 @@ const Table = ({ title, rowsData, columnsData }) => {
     else if (title === 'Users List') setTableName('users')
     setIsLoading(true)
     getDataPaginated()
-  }, [pageSize, page, tableName, sortModelField, sortModelOrder, searchedTerm])
+  }, [pageSize, page, tableName, sortModelField, sortModelOrder, searchedTerm, filterColumn])
   async function handleDeleteRow() {
     let res
 
@@ -204,7 +209,16 @@ const Table = ({ title, rowsData, columnsData }) => {
       `http://localhost:4000/${tableName}/page/${page + 1}?perPage=${pageSize}${
         sortModelField && `&sortBy=${sortModelField}`
       }${sortModelOrder && `&ascOrDesc=${sortModelOrder}`}${
-        searchedTerm && `&title=${searchedTerm}`}`
+        searchedTerm && !filterColumn?.filterColumnValue && `&title=${searchedTerm}`
+      }${filterColumn?.filterColumnValue && `&filterValue=${filterColumn?.filterColumnValue}`}${
+        filterColumn?.filterColumnName &&
+        filterColumn?.filterColumnValue &&
+        `&filterName=${filterColumn?.filterColumnName}`
+      }${
+        filterColumn?.filterColumnOperator &&
+        filterColumn?.filterColumnValue &&
+        `&filterOperator=${filterColumn?.filterColumnOperator}`
+      }`
     )
     setRowsToShow(res.data.rows)
     setRowsCount(res.data.count)
@@ -216,7 +230,12 @@ const Table = ({ title, rowsData, columnsData }) => {
   }
   function handleFilterModelChange(filterModel) {
     console.log(filterModel)
-    setSearchedTerm(filterModel.quickFilterValues[0])
+    setFilterColumn({
+      filterColumnName: filterModel.items[0]?.columnField,
+      filterColumnOperator: filterModel.items[0]?.operatorValue,
+      filterColumnValue: filterModel.items[0]?.value
+    })
+    if (filterModel.quickFilterValues[0]) setSearchedTerm(filterModel.quickFilterValues[0])
   }
   return (
     <Card>
@@ -262,7 +281,7 @@ const Table = ({ title, rowsData, columnsData }) => {
         onPageSizeChange={newPageSize => setPageSize(newPageSize)}
         sortingMode='server'
         onSortModelChange={sortModel => handleSortModelChange(sortModel)}
-        filterMode="server"
+        filterMode='server'
         onFilterModelChange={filterModel => handleFilterModelChange(filterModel)}
         components={{
           Toolbar: GridToolbar,
