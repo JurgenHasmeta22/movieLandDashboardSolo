@@ -47,7 +47,6 @@ const StyledGridOverlay = styled('div')(({ theme }) => ({
     fill: theme.palette.mode === 'light' ? '#f5f5f5' : '#fff'
   }
 }))
-
 function CustomNoRowsOverlay() {
   return (
     <StyledGridOverlay>
@@ -82,7 +81,6 @@ function CustomNoRowsOverlay() {
     </StyledGridOverlay>
   )
 }
-
 function CustomPagination() {
   const apiRef = useGridApiContext()
   const page = useGridSelector(apiRef, gridPageSelector)
@@ -98,8 +96,6 @@ function CustomPagination() {
     />
   )
 }
-
-// ** Styled Dialog component
 const Dialog = styled(MuiDialog)({
   '& .MuiBackdrop-root': {
     backdropFilter: 'blur(4px)'
@@ -115,17 +111,22 @@ const Dialog = styled(MuiDialog)({
 
 const Table = ({ title, rowsData, columnsData }) => {
   const [pageSize, setPageSize] = useState(20)
-  const [selectedRows, setSelectedRows] = React.useState([])
-  const [rowsToShow, setRowsToShow] = React.useState(rowsData)
-  const [tableName, setTableName] = React.useState('')
+  const [page, setPage] = useState(0)
+  const [selectedRows, setSelectedRows] = useState([])
+  const [rowsToShow, setRowsToShow] = useState([])
+  const [rowsCount, setRowsCount] = useState(0)
+  const [tableName, setTableName] = useState('')
+  const [isLoading, setIsLoading] = useState(true)
   const [openDialogAdd, setOpenDialogAdd] = useState(false)
+  const [sortModelField, setSortModelField] = useState('')
+  const [sortModelOrder, setSortModelOrder] = useState('')
+  const [searchedTerm, setSearchedTerm] = useState('')
   const [openDialogEdit, setOpenDialogEdit] = useState(false)
   const [fieldToCreate, setFieldsToCreate] = useState({})
   const [addUser, setAddUser] = useState({ userName: '', email: '', password: '' })
   const [addSerie, setAddSerie] = useState({ title: '', photoSrc: '', releaseYear: '', ratingImdb: '' })
   const [addEpisode, setAddEpisode] = useState({ title: '', photoSrc: '', videoSrc: '', description: '', serieId: 1 })
   const [addGenre, setAddGenre] = useState({ name: '' })
-
   const [addMovie, setAddMovie] = useState({
     title: '',
     videoSrc: '',
@@ -136,15 +137,15 @@ const Table = ({ title, rowsData, columnsData }) => {
     releaseYear: '',
     description: ''
   })
-
   useEffect(() => {
     if (title === 'Series List') setTableName('series')
     else if (title === 'Episodes List') setTableName('episodes')
     else if (title === 'Movies List') setTableName('movies')
     else if (title === 'Genres List') setTableName('genres')
     else if (title === 'Users List') setTableName('users')
-  })
-
+    setIsLoading(true)
+    getDataPaginated()
+  }, [pageSize, page, tableName, sortModelField, sortModelOrder, searchedTerm])
   async function handleDeleteRow() {
     let res
 
@@ -154,14 +155,7 @@ const Table = ({ title, rowsData, columnsData }) => {
       }
       setRowsToShow(res.data.rows)
     }
-
-    // const filteredRows = rowsToShow.filter(function (el) {
-    //   return !selectedRows.includes(el)
-    // })
-
-    // setRowsToShow(filteredRows)
   }
-
   async function handleAddGenre() {
     let res
 
@@ -170,7 +164,6 @@ const Table = ({ title, rowsData, columnsData }) => {
       setRowsToShow(res.data)
     }
   }
-
   async function handleAddMovie() {
     let res
 
@@ -179,7 +172,6 @@ const Table = ({ title, rowsData, columnsData }) => {
       setRowsToShow(res.data)
     }
   }
-
   async function handleAddSerie() {
     let res
 
@@ -188,7 +180,6 @@ const Table = ({ title, rowsData, columnsData }) => {
       setRowsToShow(res.data)
     }
   }
-
   async function handleAddEpisode() {
     let res
 
@@ -197,7 +188,6 @@ const Table = ({ title, rowsData, columnsData }) => {
       setRowsToShow(res.data)
     }
   }
-
   async function handleAddUser() {
     let res
 
@@ -206,20 +196,37 @@ const Table = ({ title, rowsData, columnsData }) => {
       setRowsToShow(res.data)
     }
   }
-
-  function handleAddRow() {
+  function openRow() {
     setOpenDialogAdd(true)
   }
-
+  async function getDataPaginated() {
+    const res = await axios.get(
+      `http://localhost:4000/${tableName}/page/${page + 1}?perPage=${pageSize}${
+        sortModelField && `&sortBy=${sortModelField}`
+      }${sortModelOrder && `&ascOrDesc=${sortModelOrder}`}${
+        searchedTerm && `&title=${searchedTerm}`}`
+    )
+    setRowsToShow(res.data.rows)
+    setRowsCount(res.data.count)
+    setIsLoading(false)
+  }
+  function handleSortModelChange(sortModel) {
+    setSortModelField(sortModel[0]?.field)
+    setSortModelOrder(sortModel[0]?.sort)
+  }
+  function handleFilterModelChange(filterModel) {
+    setSearchedTerm(filterModel.quickFilterValues[0])
+  }
   return (
     <Card>
       <CardHeader title={title} sx={{ mb: 5, mt: 5, ml: 10 }} />
       <Button
         sx={{ border: 2, ml: 15 }}
         onClick={() => {
-          handleAddRow()
+          openRow()
         }}
       >
+        Add
         <AddOutlinedIcon />
       </Button>
       <Button
@@ -228,29 +235,39 @@ const Table = ({ title, rowsData, columnsData }) => {
           handleDeleteRow()
         }}
       >
+        Delete
         <ClearOutlinedIcon />
       </Button>
       <DataGrid
-        pagination
         autoHeight
         rows={rowsToShow}
+        rowCount={rowsCount}
         columns={columnsData}
         onSelectionModelChange={ids => {
           const selectedRowsData = ids.map(id => rowsToShow.find(row => row.id === id))
           setSelectedRows(selectedRowsData)
         }}
         checkboxSelection
-        pageSize={pageSize}
         sx={{ mt: 15, mb: 15 }}
-
-        // rowsPerPageOptions={[5, 10, , 15, 20, 25, 50]}
-        // onPageSizeChange={newPageSize => setPageSize(newPageSize)}
-        
+        loading={isLoading}
+        pagination
+        paginationMode='server'
+        rowsPerPageOptions={[5, 10, 15, 20, 25, 30, 35, 40, 50]}
+        page={page}
+        pageSize={pageSize}
+        onPageChange={newPage => {
+          setPage(newPage)
+        }}
+        onPageSizeChange={newPageSize => setPageSize(newPageSize)}
+        sortingMode='server'
+        onSortModelChange={sortModel => handleSortModelChange(sortModel)}
+        filterMode="server"
+        onFilterModelChange={filterModel => handleFilterModelChange(filterModel)}
         components={{
           Toolbar: GridToolbar,
-          Pagination: CustomPagination,
-          NoRowsOverlay: CustomNoRowsOverlay,
-          LoadingOverlay: LinearProgress
+          // Pagination: CustomPagination,
+          NoRowsOverlay: CustomNoRowsOverlay
+          // LoadingOverlay: LinearProgress
         }}
         componentsProps={{
           toolbar: {
@@ -305,7 +322,6 @@ const Table = ({ title, rowsData, columnsData }) => {
             }}
           >
             <CardHeader title='Series Table' sx={{ mb: 2, mt: 2, ml: 5 }} />
-
             <FormControl noValidate autoComplete='off' fullWidth sx={{ mb: 2, mt: 2 }}>
               <InputLabel htmlFor='title-serie'>Title</InputLabel>
               <OutlinedInput
@@ -448,7 +464,6 @@ const Table = ({ title, rowsData, columnsData }) => {
             }}
           >
             <CardHeader title='Episodes Table' sx={{ mb: 2, mt: 2, ml: 5 }} />
-
             <FormControl noValidate autoComplete='off' fullWidth sx={{ mb: 2, mt: 2 }}>
               <InputLabel htmlFor='title-episode'>Title</InputLabel>
               <OutlinedInput
@@ -510,7 +525,6 @@ const Table = ({ title, rowsData, columnsData }) => {
             }}
           >
             <CardHeader title='Users Table' sx={{ mb: 2, mt: 2, ml: 5 }} />
-
             <FormControl noValidate autoComplete='off' fullWidth sx={{ mb: 4, mt: 4 }}>
               <InputLabel htmlFor='username-user'>Name</InputLabel>
               <OutlinedInput
@@ -552,7 +566,6 @@ const Table = ({ title, rowsData, columnsData }) => {
             }}
           >
             <CardHeader title='Genres Table' sx={{ mb: 2, mt: 2, ml: 5 }} />
-
             <FormControl noValidate autoComplete='off' fullWidth sx={{ mb: 4, mt: 4 }}>
               <InputLabel htmlFor='name-genre'>Name</InputLabel>
               <OutlinedInput
