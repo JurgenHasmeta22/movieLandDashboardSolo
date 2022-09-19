@@ -118,8 +118,8 @@ const Table = ({ title, rowsData, columnsData }) => {
   const [tableName, setTableName] = useState('')
   const [isLoading, setIsLoading] = useState(true)
   const [openDialogAdd, setOpenDialogAdd] = useState(false)
-  const [sortModelField, setSortModelField] = useState('')
-  const [sortModelOrder, setSortModelOrder] = useState('')
+  const [sortModelField, setSortModelField] = useState(null)
+  const [sortModelOrder, setSortModelOrder] = useState(null)
   const [searchedTerm, setSearchedTerm] = useState('')
   const [openDialogEdit, setOpenDialogEdit] = useState(false)
   const [fieldToCreate, setFieldsToCreate] = useState({})
@@ -138,8 +138,8 @@ const Table = ({ title, rowsData, columnsData }) => {
     description: ''
   })
   const [filterColumn, setFilterColumn] = useState({
-    filterColumnName: '',
-    filterColumnOperator: '',
+    filterColumnName: null,
+    filterColumnOperator: null,
     filterColumnValue: null
   })
   useEffect(() => {
@@ -207,17 +207,31 @@ const Table = ({ title, rowsData, columnsData }) => {
   async function getDataPaginated() {
     const res = await axios.get(
       `http://localhost:4000/${tableName}/page/${page + 1}?perPage=${pageSize}${
-        sortModelField && `&sortBy=${sortModelField}`
-      }${sortModelOrder && `&ascOrDesc=${sortModelOrder}`}${
-        searchedTerm && !filterColumn?.filterColumnValue && `&title=${searchedTerm}`
-      }${filterColumn?.filterColumnValue && `&filterValue=${filterColumn?.filterColumnValue}`}${
+        sortModelField && sortModelField !== undefined && sortModelField !== null ? `&sortBy=${sortModelField}` : ''
+      }${
+        sortModelOrder && sortModelOrder !== undefined && sortModelOrder !== null ? `&ascOrDesc=${sortModelOrder}` : ''
+      }${
+        searchedTerm && (!filterColumn?.filterColumnValue || filterColumn?.filterColumnValue === null || filterColumn?.filterColumnValue === undefined)
+          ? `&title=${searchedTerm}`
+          : ''
+      }${
+        filterColumn?.filterColumnValue && filterColumn?.filterColumnValue !== null
+          ? `&filterValue=${filterColumn?.filterColumnValue}`
+          : ''
+      }${
         filterColumn?.filterColumnName &&
+        filterColumn?.filterColumnName !== null &&
         filterColumn?.filterColumnValue &&
-        `&filterName=${filterColumn?.filterColumnName}`
+        filterColumn?.filterColumnValue !== null
+          ? `&filterName=${filterColumn?.filterColumnName}`
+          : ''
       }${
         filterColumn?.filterColumnOperator &&
+        filterColumn?.filterColumnOperator !== null &&
         filterColumn?.filterColumnValue &&
-        `&filterOperator=${filterColumn?.filterColumnOperator}`
+        filterColumn?.filterColumnValue !== null
+          ? `&filterOperator=${filterColumn?.filterColumnOperator}`
+          : ''
       }`
     )
     setRowsToShow(res.data.rows)
@@ -229,13 +243,12 @@ const Table = ({ title, rowsData, columnsData }) => {
     setSortModelOrder(sortModel[0]?.sort)
   }
   function handleFilterModelChange(filterModel) {
-    console.log(filterModel)
     setFilterColumn({
       filterColumnName: filterModel.items[0]?.columnField,
       filterColumnOperator: filterModel.items[0]?.operatorValue,
       filterColumnValue: filterModel.items[0]?.value
     })
-    if (filterModel.quickFilterValues[0]) setSearchedTerm(filterModel.quickFilterValues[0])
+    setSearchedTerm(filterModel.quickFilterValues[0])
   }
   return (
     <Card>
