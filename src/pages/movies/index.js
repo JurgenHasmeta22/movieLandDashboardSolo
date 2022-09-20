@@ -19,7 +19,13 @@ const MoviesPage = ({ movies }) => {
   const router = useRouter()
 
   function handleOpen(paramsRow) {
-    router.push(`movies/${paramsRow.id}`)
+    router.push(
+      {
+        pathname: `movies/${paramsRow.id}`,
+        query: paramsRow
+      },
+      `movies/${paramsRow.id}`
+    )
   }
 
   function handleEdit(paramsRow) {
@@ -218,16 +224,6 @@ const MoviesPage = ({ movies }) => {
       )
     }
   ]
-
-  function handleOpen(paramsRow) {
-    router.push(
-      {
-        pathname: `movies/${paramsRow.id}`,
-        query: paramsRow
-      },
-      `movies/${paramsRow.id}`
-    )
-  }
 
   return <Table title={'Movies List'} rowsData={movies} columnsData={columns} />
 }
