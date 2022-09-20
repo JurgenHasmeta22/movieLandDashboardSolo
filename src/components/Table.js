@@ -110,23 +110,42 @@ const Dialog = styled(MuiDialog)({
 })
 
 const Table = ({ title, rowsData, columnsData }) => {
+  const [tableName, setTableName] = useState('')
+  const [isLoading, setIsLoading] = useState(true)
   const [pageSize, setPageSize] = useState(20)
   const [page, setPage] = useState(0)
   const [selectedRows, setSelectedRows] = useState([])
   const [rowsToShow, setRowsToShow] = useState([])
   const [rowsCount, setRowsCount] = useState(0)
-  const [tableName, setTableName] = useState('')
-  const [isLoading, setIsLoading] = useState(true)
-  const [openDialogAdd, setOpenDialogAdd] = useState(false)
   const [sortModelField, setSortModelField] = useState(null)
   const [sortModelOrder, setSortModelOrder] = useState(null)
   const [searchedTerm, setSearchedTerm] = useState('')
-  const [openDialogEdit, setOpenDialogEdit] = useState(false)
-  const [fieldToCreate, setFieldsToCreate] = useState({})
-  const [addUser, setAddUser] = useState({ userName: '', email: '', password: '' })
-  const [addSerie, setAddSerie] = useState({ title: '', photoSrc: '', releaseYear: '', ratingImdb: '' })
-  const [addEpisode, setAddEpisode] = useState({ title: '', photoSrc: '', videoSrc: '', description: '', serieId: 1 })
-  const [addGenre, setAddGenre] = useState({ name: '' })
+  const [filterColumn, setFilterColumn] = useState({
+    filterColumnName: null,
+    filterColumnOperator: null,
+    filterColumnValue: null
+  })
+  const [addUser, setAddUser] = useState({
+    userName: '',
+    email: '',
+    password: ''
+  })
+  const [addSerie, setAddSerie] = useState({
+    title: '',
+    photoSrc: '',
+    releaseYear: '',
+    ratingImdb: ''
+  })
+  const [addEpisode, setAddEpisode] = useState({
+    title: '',
+    photoSrc: '',
+    videoSrc: '',
+    description: '',
+    serieId: 1
+  })
+  const [addGenre, setAddGenre] = useState({
+    name: ''
+  })
   const [addMovie, setAddMovie] = useState({
     title: '',
     videoSrc: '',
@@ -137,11 +156,10 @@ const Table = ({ title, rowsData, columnsData }) => {
     releaseYear: '',
     description: ''
   })
-  const [filterColumn, setFilterColumn] = useState({
-    filterColumnName: null,
-    filterColumnOperator: null,
-    filterColumnValue: null
-  })
+  // const [openDialogEdit, setOpenDialogEdit] = useState(false)
+  // const [fieldToCreate, setFieldsToCreate] = useState({})
+  const [openDialogAdd, setOpenDialogAdd] = useState(false)
+
   useEffect(() => {
     if (title === 'Series List') setTableName('series')
     else if (title === 'Episodes List') setTableName('episodes')
@@ -151,9 +169,9 @@ const Table = ({ title, rowsData, columnsData }) => {
     setIsLoading(true)
     getDataPaginated()
   }, [pageSize, page, tableName, sortModelField, sortModelOrder, searchedTerm, filterColumn])
+
   async function handleDeleteRow() {
     let res
-
     if (selectedRows.length !== 0 && tableName !== '') {
       for (const element of selectedRows) {
         res = await axios.delete(`http://localhost:4000/${tableName}/${element.id}`)
@@ -163,7 +181,6 @@ const Table = ({ title, rowsData, columnsData }) => {
   }
   async function handleAddGenre() {
     let res
-
     if (addGenre) {
       res = await axios.post(`http://localhost:4000/${tableName}`, addGenre)
       setRowsToShow(res.data)
@@ -171,7 +188,6 @@ const Table = ({ title, rowsData, columnsData }) => {
   }
   async function handleAddMovie() {
     let res
-
     if (addMovie) {
       res = await axios.post(`http://localhost:4000/${tableName}`, addMovie)
       setRowsToShow(res.data)
@@ -179,7 +195,6 @@ const Table = ({ title, rowsData, columnsData }) => {
   }
   async function handleAddSerie() {
     let res
-
     if (addSerie) {
       res = await axios.post(`http://localhost:4000/${tableName}`, addSerie)
       setRowsToShow(res.data)
@@ -187,7 +202,6 @@ const Table = ({ title, rowsData, columnsData }) => {
   }
   async function handleAddEpisode() {
     let res
-
     if (addEpisode) {
       res = await axios.post(`http://localhost:4000/${tableName}`, addEpisode)
       setRowsToShow(res.data)
@@ -195,7 +209,6 @@ const Table = ({ title, rowsData, columnsData }) => {
   }
   async function handleAddUser() {
     let res
-
     if (addUser.email !== '' && addUser.userName !== '' && addUser.password !== '') {
       res = await axios.post(`http://localhost:4000/${tableName}`, addUser)
       setRowsToShow(res.data)
@@ -211,7 +224,10 @@ const Table = ({ title, rowsData, columnsData }) => {
       }${
         sortModelOrder && sortModelOrder !== undefined && sortModelOrder !== null ? `&ascOrDesc=${sortModelOrder}` : ''
       }${
-        searchedTerm && (!filterColumn?.filterColumnValue || filterColumn?.filterColumnValue === null || filterColumn?.filterColumnValue === undefined)
+        searchedTerm &&
+        (!filterColumn?.filterColumnValue ||
+          filterColumn?.filterColumnValue === null ||
+          filterColumn?.filterColumnValue === undefined)
           ? `&title=${searchedTerm}`
           : ''
       }${
@@ -250,6 +266,7 @@ const Table = ({ title, rowsData, columnsData }) => {
     })
     setSearchedTerm(filterModel.quickFilterValues[0])
   }
+
   return (
     <Card>
       <CardHeader title={title} sx={{ mb: 5, mt: 5, ml: 10 }} />

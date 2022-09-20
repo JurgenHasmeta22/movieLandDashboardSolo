@@ -18,9 +18,7 @@ export async function getServerSideProps() {
 
 const MoviesPage = ({ movies }) => {
   const router = useRouter()
-  function handleOpen(paramsRow) {
-    router.push(`movies/${paramsRow.id}`)
-  }
+  const [moviesNew, setMoviesNew] = useState(movies)
 
   const columns = [
     {
@@ -30,7 +28,8 @@ const MoviesPage = ({ movies }) => {
       headerName: 'Id',
       extendType: 'number',
       filterOperators: getGridNumericOperators().filter(
-        operator => operator.value === '>' || operator.value === '<' || operator.value === '=')
+        operator => operator.value === '>' || operator.value === '<' || operator.value === '='
+      )
     },
     {
       flex: 0.175,
@@ -95,7 +94,8 @@ const MoviesPage = ({ movies }) => {
       headerName: 'Duration',
       extendType: 'number',
       filterOperators: getGridNumericOperators().filter(
-        operator => operator.value === '>' || operator.value === '<' || operator.value === '=')
+        operator => operator.value === '>' || operator.value === '<' || operator.value === '='
+      )
     },
     {
       flex: 0.175,
@@ -104,7 +104,8 @@ const MoviesPage = ({ movies }) => {
       headerName: 'Rating Imdb',
       extendType: 'number',
       filterOperators: getGridNumericOperators().filter(
-        operator => operator.value === '>' || operator.value === '<' || operator.value === '=')
+        operator => operator.value === '>' || operator.value === '<' || operator.value === '='
+      )
     },
     {
       flex: 0.175,
@@ -113,7 +114,8 @@ const MoviesPage = ({ movies }) => {
       headerName: 'Release Year',
       extendType: 'number',
       filterOperators: getGridNumericOperators().filter(
-        operator => operator.value === '>' || operator.value === '<' || operator.value === '=')
+        operator => operator.value === '>' || operator.value === '<' || operator.value === '='
+      )
     },
     {
       flex: 0.175,
@@ -136,7 +138,8 @@ const MoviesPage = ({ movies }) => {
       headerName: 'Views',
       extendType: 'number',
       filterOperators: getGridNumericOperators().filter(
-        operator => operator.value === '>' || operator.value === '<' || operator.value === '=')
+        operator => operator.value === '>' || operator.value === '<' || operator.value === '='
+      )
     },
     {
       field: '',
@@ -166,7 +169,12 @@ const MoviesPage = ({ movies }) => {
     }
   ]
 
-  const [moviesNew, setMoviesNew] = useState(movies)
+  function handleOpen(paramsRow) {
+    router.push({
+      pathname: `movies/${paramsRow.id}`,
+      query: paramsRow
+    }, `movies/${paramsRow.id}`)
+  }
 
   return <Table title={'Movies List'} rowsData={movies} columnsData={columns} />
 }
