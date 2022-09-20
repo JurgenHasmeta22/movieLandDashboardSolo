@@ -9,10 +9,8 @@ import { getGridNumericOperators, getGridStringOperators } from '@mui/x-data-gri
 
 export async function getServerSideProps() {
   const url = `http://localhost:4000/users`
-
   const res = await axios(url)
   const users = res.data
-
   return {
     props: { users }
   }
@@ -24,6 +22,9 @@ const UsersPage = ({ users }) => {
   function handleOpen(paramsRow) {
     router.push(`users/${paramsRow.id}`)
   }
+  function handleEdit(paramsRow) {
+    router.push(`userEdit/${paramsRow.id}`)
+  }
 
   const columns = [
     {
@@ -31,15 +32,24 @@ const UsersPage = ({ users }) => {
       minWidth: 50,
       field: 'id',
       headerName: 'Id',
+      // renderHeader: (params) => (
+      //   'Id'
+      // ),
+      description: 'The number of identification of the user',
       extendType: 'number',
       filterOperators: getGridNumericOperators().filter(
-        operator => operator.value === '>' || operator.value === '<' || operator.value === '=')
+        operator => operator.value === '>' || operator.value === '<' || operator.value === '='
+      )
     },
     {
       flex: 0.175,
       minWidth: 120,
       headerName: 'Username',
+      // renderHeader: (params) => (
+      //   'Username'
+      // ),
       field: 'userName',
+      description: 'The username of the user',
       extendType: 'string',
       filterOperators: getGridStringOperators().filter(
         operator =>
@@ -54,7 +64,11 @@ const UsersPage = ({ users }) => {
       field: 'email',
       minWidth: 80,
       headerName: 'Email',
+      // renderHeader: (params) => (
+      //   'Email'
+      // ),
       extendType: 'string',
+      description: 'The email of the user',
       filterOperators: getGridStringOperators().filter(
         operator =>
           operator.value === 'contains' ||
@@ -68,7 +82,11 @@ const UsersPage = ({ users }) => {
       minWidth: 140,
       field: 'password',
       headerName: 'Password',
+      // renderHeader: (params) => (
+      //   'Password'
+      // ),
       extendType: 'string',
+      description: 'The password of the user',
       filterOperators: getGridStringOperators().filter(
         operator =>
           operator.value === 'contains' ||
@@ -80,15 +98,19 @@ const UsersPage = ({ users }) => {
     {
       field: '',
       headerName: 'Actions',
+      // renderHeader: (params) => (
+      //   'Actions'
+      // ),
       sortable: false,
       width: 200,
       disableClickEventBubbling: true,
       filterable: false,
+      description: 'The actions of crud to do on this row, in this case edit and show the row in detail',
       renderCell: params => (
         <>
           <Button
             onClick={() => {
-              console.log(params.row)
+              handleEdit(params.row)
             }}
           >
             <EditOutlinedIcon />

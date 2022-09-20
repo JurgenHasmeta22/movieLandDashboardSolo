@@ -37,7 +37,7 @@ const Error500 = () => {
   return (
     <Box className='content-center'>
       <Box sx={{ p: 5, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-        <BoxWrapper>
+        <Box>
           <Typography variant='h1' sx={{ mb: 2.5 }}>
             500
           </Typography>
@@ -45,7 +45,7 @@ const Error500 = () => {
             Internal server error 👨🏻‍💻
           </Typography>
           <Typography variant='body2'>Oops, something went wrong!</Typography>
-        </BoxWrapper>
+        </Box>
         <Img alt='error-illustration' src='/images/pages/500.png' />
         <Link passHref href='/'>
           <Button component='a' variant='contained' sx={{ px: 5.5 }}>

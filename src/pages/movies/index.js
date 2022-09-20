@@ -1,7 +1,6 @@
 import axios from 'axios'
 import Table from '../../components/Table'
 import Button from '@mui/material/Button'
-import { useState } from 'react'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import OpenInNewOutlinedIcon from '@mui/icons-material/OpenInNewOutlined'
 import { useRouter } from 'next/router'
@@ -18,7 +17,14 @@ export async function getServerSideProps() {
 
 const MoviesPage = ({ movies }) => {
   const router = useRouter()
-  // const [moviesNew, setMoviesNew] = useState(movies)
+
+  function handleOpen(paramsRow) {
+    router.push(`movies/${paramsRow.id}`)
+  }
+
+  function handleEdit(paramsRow) {
+    router.push(`movieEdit/${paramsRow.id}`)
+  }
 
   const columns = [
     {
@@ -26,17 +32,25 @@ const MoviesPage = ({ movies }) => {
       minWidth: 50,
       field: 'id',
       headerName: 'Id',
+      // renderHeader: (params) => (
+      //   'Id'
+      // ),
       extendType: 'number',
+      description: 'The identification number of the movie',
       filterOperators: getGridNumericOperators().filter(
         operator => operator.value === '>' || operator.value === '<' || operator.value === '='
       )
     },
     {
       flex: 0.175,
-      minWidth: 120,
+      minWidth: 240,
       headerName: 'Title',
+      // renderHeader: (params) => (
+      //   'Title'
+      // ),
       field: 'title',
       extendType: 'string',
+      description: 'The title of the movie',
       filterOperators: getGridStringOperators().filter(
         operator =>
           operator.value === 'contains' ||
@@ -47,10 +61,14 @@ const MoviesPage = ({ movies }) => {
     },
     {
       flex: 0.175,
-      minWidth: 110,
+      minWidth: 240,
       field: 'videoSrc',
       headerName: 'Video Source',
+      // renderHeader: (params) => (
+      //   'Video source'
+      // ),
       extendType: 'string',
+      description: 'The source url of the movie',
       filterOperators: getGridStringOperators().filter(
         operator =>
           operator.value === 'contains' ||
@@ -62,8 +80,12 @@ const MoviesPage = ({ movies }) => {
     {
       flex: 0.125,
       field: 'photoSrc',
-      minWidth: 80,
+      minWidth: 240,
       headerName: 'Photo Source',
+      // renderHeader: (params) => (
+      //   'Photo source'
+      // ),
+      description: 'The url source of the image that the movie has',
       extendType: 'string',
       filterOperators: getGridStringOperators().filter(
         operator =>
@@ -75,10 +97,14 @@ const MoviesPage = ({ movies }) => {
     },
     {
       flex: 0.175,
-      minWidth: 140,
+      minWidth: 240,
       field: 'trailerSrc',
       headerName: 'Trailer Source',
+      // renderHeader: (params) => (
+      //   'Trailer source'
+      // ),
       extendType: 'string',
+      description: 'The url source of the trailer youtube that the movie has',
       filterOperators: getGridStringOperators().filter(
         operator =>
           operator.value === 'contains' ||
@@ -92,7 +118,11 @@ const MoviesPage = ({ movies }) => {
       minWidth: 140,
       field: 'duration',
       headerName: 'Duration',
+      // renderHeader: (params) => (
+      //   'Duration'
+      // ),
       extendType: 'number',
+      description: 'The duration in minutes that the movie has',
       filterOperators: getGridNumericOperators().filter(
         operator => operator.value === '>' || operator.value === '<' || operator.value === '='
       )
@@ -102,7 +132,11 @@ const MoviesPage = ({ movies }) => {
       minWidth: 140,
       field: 'ratingImdb',
       headerName: 'Rating Imdb',
+      // renderHeader: (params) => (
+      //   'Rating imdb'
+      // ),
       extendType: 'number',
+      description: 'The rating imdb that the movies has',
       filterOperators: getGridNumericOperators().filter(
         operator => operator.value === '>' || operator.value === '<' || operator.value === '='
       )
@@ -112,17 +146,25 @@ const MoviesPage = ({ movies }) => {
       minWidth: 140,
       field: 'releaseYear',
       headerName: 'Release Year',
+      // renderHeader: (params) => (
+      //   'Release year'
+      // ),
       extendType: 'number',
+      description: 'The year that the movie is released',
       filterOperators: getGridNumericOperators().filter(
         operator => operator.value === '>' || operator.value === '<' || operator.value === '='
       )
     },
     {
       flex: 0.175,
-      minWidth: 140,
+      minWidth: 240,
       field: 'description',
       headerName: 'Description',
+      // renderHeader: (params) => (
+      //   'Description'
+      // ),
       extendType: 'string',
+      description: 'The description of the movie',
       filterOperators: getGridStringOperators().filter(
         operator =>
           operator.value === 'contains' ||
@@ -136,7 +178,11 @@ const MoviesPage = ({ movies }) => {
       minWidth: 140,
       field: 'views',
       headerName: 'Views',
+      // renderHeader: (params) => (
+      //   'Views'
+      // ),
       extendType: 'number',
+      description: 'The number of views that the movie has',
       filterOperators: getGridNumericOperators().filter(
         operator => operator.value === '>' || operator.value === '<' || operator.value === '='
       )
@@ -144,15 +190,19 @@ const MoviesPage = ({ movies }) => {
     {
       field: '',
       headerName: 'Actions',
+      // renderHeader: (params) => (
+      //   'Actions'
+      // ),
       sortable: false,
-      width: 200,
+      width: 240,
+      description: 'The actions of crud to do on this row, in this case edit and show the row in detail',
       disableClickEventBubbling: true,
       filterable: false,
       renderCell: params => (
         <>
           <Button
             onClick={() => {
-              console.log(params.row)
+              handleEdit(params.row)
             }}
           >
             <EditOutlinedIcon />
@@ -170,10 +220,13 @@ const MoviesPage = ({ movies }) => {
   ]
 
   function handleOpen(paramsRow) {
-    router.push({
-      pathname: `movies/${paramsRow.id}`,
-      query: paramsRow
-    }, `movies/${paramsRow.id}`)
+    router.push(
+      {
+        pathname: `movies/${paramsRow.id}`,
+        query: paramsRow
+      },
+      `movies/${paramsRow.id}`
+    )
   }
 
   return <Table title={'Movies List'} rowsData={movies} columnsData={columns} />

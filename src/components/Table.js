@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { useState, useEffect } from 'react'
-import Pagination from '@mui/material/Pagination'
-import LinearProgress from '@mui/material/LinearProgress'
+// import Pagination from '@mui/material/Pagination'
+// import LinearProgress from '@mui/material/LinearProgress'
 import { styled } from '@mui/material/styles'
 import Button from '@mui/material/Button'
 import axios from 'axios'
@@ -17,11 +17,11 @@ import CardHeader from '@mui/material/CardHeader'
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
 import {
   DataGrid,
-  GridToolbar,
-  gridPageCountSelector,
-  gridPageSelector,
-  useGridApiContext,
-  useGridSelector
+  GridToolbar
+  // gridPageCountSelector,
+  // gridPageSelector,
+  // useGridApiContext,
+  // useGridSelector
 } from '@mui/x-data-grid'
 
 const StyledGridOverlay = styled('div')(({ theme }) => ({
@@ -81,21 +81,23 @@ function CustomNoRowsOverlay() {
     </StyledGridOverlay>
   )
 }
-function CustomPagination() {
-  const apiRef = useGridApiContext()
-  const page = useGridSelector(apiRef, gridPageSelector)
-  const pageCount = useGridSelector(apiRef, gridPageCountSelector)
 
-  return (
-    <Pagination
-      sx={{ mt: 15, mb: 15, display: 'flex', flexDirection: 'row', alignItems: 'center', placeItems: 'center' }}
-      color='primary'
-      count={pageCount}
-      page={page + 1}
-      onChange={(event, value) => apiRef.current.setPage(value - 1)}
-    />
-  )
-}
+// function CustomPagination() {
+//   const apiRef = useGridApiContext()
+//   const page = useGridSelector(apiRef, gridPageSelector)
+//   const pageCount = useGridSelector(apiRef, gridPageCountSelector)
+
+//   return (
+//     <Pagination
+//       sx={{ mt: 15, mb: 15, display: 'flex', flexDirection: 'row', alignItems: 'center', placeItems: 'center' }}
+//       color='primary'
+//       count={pageCount}
+//       page={page + 1}
+//       onChange={(event, value) => apiRef.current.setPage(value - 1)}
+//     />
+//   )
+// }
+
 const Dialog = styled(MuiDialog)({
   '& .MuiBackdrop-root': {
     backdropFilter: 'blur(4px)'
@@ -297,9 +299,9 @@ const Table = ({ title, rowsData, columnsData }) => {
           const selectedRowsData = ids.map(id => rowsToShow.find(row => row.id === id))
           setSelectedRows(selectedRowsData)
         }}
-        disableSelectionOnClick
+        // disableSelectionOnClick
         checkboxSelection
-        sx={{ mt: 15, mb: 15, ml: 15, mr: 15}}
+        sx={{ mt: 15, mb: 15, ml: 15, mr: 15 }}
         loading={isLoading}
         pagination
         paginationMode='server'

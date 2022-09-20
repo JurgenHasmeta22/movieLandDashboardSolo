@@ -108,7 +108,7 @@ const ForgotPassword = () => {
             backgroundColor: 'background.paper'
           }}
         >
-          <BoxWrapper>
+          <Box>
             <Box
               sx={{
                 top: 30,
@@ -216,7 +216,7 @@ const ForgotPassword = () => {
                 </Link>
               </Typography>
             </form>
-          </BoxWrapper>
+          </Box>
         </Box>
       </RightWrapper>
     </Box>

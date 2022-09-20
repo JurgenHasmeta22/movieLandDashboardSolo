@@ -180,7 +180,7 @@ const Register = () => {
             backgroundColor: 'background.paper'
           }}
         >
-          <BoxWrapper>
+          <Box>
             <Box
               sx={{
                 top: 30,
@@ -432,7 +432,7 @@ const Register = () => {
                 </Link>
               </Box>
             </form>
-          </BoxWrapper>
+          </Box>
         </Box>
       </RightWrapper>
     </Box>

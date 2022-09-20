@@ -109,7 +109,7 @@ const PlanDetails = props => {
       >
         {data?.currentPlan ? 'Your Current Plan' : 'Upgrade'}
       </Button>
-    </BoxWrapper>
+    </Box>
   )
 }
 

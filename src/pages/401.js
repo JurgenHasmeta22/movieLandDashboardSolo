@@ -37,7 +37,7 @@ const Error401 = () => {
   return (
     <Box className='content-center'>
       <Box sx={{ p: 5, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-        <BoxWrapper>
+        <Box>
           <Typography variant='h1' sx={{ mb: 2.5 }}>
             401
           </Typography>
@@ -45,7 +45,7 @@ const Error401 = () => {
             You are not authorized! 🔐
           </Typography>
           <Typography variant='body2'>You don&prime;t have permission to access this page. Go Home!</Typography>
-        </BoxWrapper>
+        </Box>
         <Img alt='error-illustration' src='/images/pages/401.png' />
         <Link passHref href='/'>
           <Button component='a' variant='contained' sx={{ px: 5.5 }}>

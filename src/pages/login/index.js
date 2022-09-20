@@ -169,7 +169,7 @@ const LoginPage = () => {
             backgroundColor: 'background.paper'
           }}
         >
-          <BoxWrapper>
+          <Box>
             <Box
               sx={{
                 top: 30,
@@ -376,7 +376,7 @@ const LoginPage = () => {
                 </Link>
               </Box>
             </form>
-          </BoxWrapper>
+          </Box>
         </Box>
       </RightWrapper>
     </Box>

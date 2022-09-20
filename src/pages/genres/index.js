@@ -9,10 +9,8 @@ import { getGridNumericOperators, getGridStringOperators } from '@mui/x-data-gri
 
 export async function getServerSideProps() {
   const url = `http://localhost:4000/genres`
-
   const res = await axios(url)
   const genres = res.data
-
   return {
     props: { genres }
   }
@@ -24,24 +22,35 @@ const GenresPage = ({ genres }) => {
   function handleOpen(paramsRow) {
     router.push(`genres/${paramsRow.id}`)
   }
+  function handleEdit(paramsRow) {
+    router.push(`genreEdit/${paramsRow.id}`)
+  }
 
   const columns = [
     {
       flex: 0.25,
-      minWidth: 290,
+      minWidth: 150,
       field: 'id',
       headerName: 'Id',
+      // renderHeader: (params) => (
+      //   'Id'
+      // ),
       extendType: 'number',
+      description: "The identification number of the genre",
       filterOperators: getGridNumericOperators().filter(
         operator => operator.value === '>' || operator.value === '<' || operator.value === '='
       )
     },
     {
       flex: 0.175,
-      minWidth: 120,
+      minWidth: 550,
       headerName: 'Type',
+      // renderHeader: (params) => (
+      //   'Type'
+      // ),
       field: 'name',
       extendType: 'string',
+      description: "The type of the genres, so category of it",
       filterOperators: getGridStringOperators().filter(
         operator =>
           operator.value === 'contains' ||
@@ -53,15 +62,19 @@ const GenresPage = ({ genres }) => {
     {
       field: '',
       headerName: 'Actions',
+      // renderHeader: (params) => (
+      //   'Actions'
+      // ),
+      description: "The actions of crud to do on this row, in this case edit and show the row in detail",
       sortable: false,
-      width: 200,
+      width: 180,
       disableClickEventBubbling: true,
       filterable: false,
       renderCell: params => (
         <>
           <Button
             onClick={() => {
-              console.log(params.row)
+              handleEdit(params.row)
             }}
           >
             <EditOutlinedIcon />
