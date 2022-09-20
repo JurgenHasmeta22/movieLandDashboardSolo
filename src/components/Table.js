@@ -297,8 +297,9 @@ const Table = ({ title, rowsData, columnsData }) => {
           const selectedRowsData = ids.map(id => rowsToShow.find(row => row.id === id))
           setSelectedRows(selectedRowsData)
         }}
+        disableSelectionOnClick
         checkboxSelection
-        sx={{ mt: 15, mb: 15 }}
+        sx={{ mt: 15, mb: 15, ml: 15, mr: 15}}
         loading={isLoading}
         pagination
         paginationMode='server'

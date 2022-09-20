@@ -18,7 +18,7 @@ export async function getServerSideProps() {
 
 const MoviesPage = ({ movies }) => {
   const router = useRouter()
-  const [moviesNew, setMoviesNew] = useState(movies)
+  // const [moviesNew, setMoviesNew] = useState(movies)
 
   const columns = [
     {
