@@ -1,7 +1,5 @@
 import * as React from 'react'
 import { useState, useEffect } from 'react'
-// import Pagination from '@mui/material/Pagination'
-// import LinearProgress from '@mui/material/LinearProgress'
 import { styled } from '@mui/material/styles'
 import Button from '@mui/material/Button'
 import axios from 'axios'
@@ -18,10 +16,6 @@ import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
 import {
   DataGrid,
   GridToolbar
-  // gridPageCountSelector,
-  // gridPageSelector,
-  // useGridApiContext,
-  // useGridSelector
 } from '@mui/x-data-grid'
 
 const StyledGridOverlay = styled('div')(({ theme }) => ({
@@ -81,22 +75,6 @@ function CustomNoRowsOverlay() {
     </StyledGridOverlay>
   )
 }
-
-// function CustomPagination() {
-//   const apiRef = useGridApiContext()
-//   const page = useGridSelector(apiRef, gridPageSelector)
-//   const pageCount = useGridSelector(apiRef, gridPageCountSelector)
-
-//   return (
-//     <Pagination
-//       sx={{ mt: 15, mb: 15, display: 'flex', flexDirection: 'row', alignItems: 'center', placeItems: 'center' }}
-//       color='primary'
-//       count={pageCount}
-//       page={page + 1}
-//       onChange={(event, value) => apiRef.current.setPage(value - 1)}
-//     />
-//   )
-// }
 
 const Dialog = styled(MuiDialog)({
   '& .MuiBackdrop-root': {
@@ -158,19 +136,23 @@ const Table = ({ title, rowsData, columnsData }) => {
     releaseYear: '',
     description: ''
   })
-  // const [openDialogEdit, setOpenDialogEdit] = useState(false)
-  // const [fieldToCreate, setFieldsToCreate] = useState({})
   const [openDialogAdd, setOpenDialogAdd] = useState(false)
 
-  useEffect(() => {
-    if (title === 'Series List') setTableName('series')
-    else if (title === 'Episodes List') setTableName('episodes')
-    else if (title === 'Movies List') setTableName('movies')
-    else if (title === 'Genres List') setTableName('genres')
-    else if (title === 'Users List') setTableName('users')
-    setIsLoading(true)
-    getDataPaginated()
-  }, [pageSize, page, tableName, sortModelField, sortModelOrder, searchedTerm, filterColumn])
+  function handleSortModelChange(sortModel) {
+    setSortModelField(sortModel[0]?.field)
+    setSortModelOrder(sortModel[0]?.sort)
+  }
+  function handleFilterModelChange(filterModel) {
+    setFilterColumn({
+      filterColumnName: filterModel.items[0]?.columnField,
+      filterColumnOperator: filterModel.items[0]?.operatorValue,
+      filterColumnValue: filterModel.items[0]?.value
+    })
+    setSearchedTerm(filterModel.quickFilterValues[0])
+  }
+  function openRow() {
+    setOpenDialogAdd(true)
+  }
 
   async function handleDeleteRow() {
     let res
@@ -216,9 +198,6 @@ const Table = ({ title, rowsData, columnsData }) => {
       setRowsToShow(res.data)
     }
   }
-  function openRow() {
-    setOpenDialogAdd(true)
-  }
   async function getDataPaginated() {
     const res = await axios.get(
       `http://localhost:4000/${tableName}/page/${page + 1}?perPage=${pageSize}${
@@ -256,18 +235,15 @@ const Table = ({ title, rowsData, columnsData }) => {
     setRowsCount(res.data.count)
     setIsLoading(false)
   }
-  function handleSortModelChange(sortModel) {
-    setSortModelField(sortModel[0]?.field)
-    setSortModelOrder(sortModel[0]?.sort)
-  }
-  function handleFilterModelChange(filterModel) {
-    setFilterColumn({
-      filterColumnName: filterModel.items[0]?.columnField,
-      filterColumnOperator: filterModel.items[0]?.operatorValue,
-      filterColumnValue: filterModel.items[0]?.value
-    })
-    setSearchedTerm(filterModel.quickFilterValues[0])
-  }
+  useEffect(() => {
+    if (title === 'Series List') setTableName('series')
+    else if (title === 'Episodes List') setTableName('episodes')
+    else if (title === 'Movies List') setTableName('movies')
+    else if (title === 'Genres List') setTableName('genres')
+    else if (title === 'Users List') setTableName('users')
+    setIsLoading(true)
+    getDataPaginated()
+  }, [pageSize, page, tableName, sortModelField, sortModelOrder, searchedTerm, filterColumn])
 
   return (
     <Card>
@@ -299,7 +275,6 @@ const Table = ({ title, rowsData, columnsData }) => {
           const selectedRowsData = ids.map(id => rowsToShow.find(row => row.id === id))
           setSelectedRows(selectedRowsData)
         }}
-        // disableSelectionOnClick
         checkboxSelection
         sx={{ mt: 15, mb: 15, ml: 15, mr: 15 }}
         loading={isLoading}
@@ -318,9 +293,7 @@ const Table = ({ title, rowsData, columnsData }) => {
         onFilterModelChange={filterModel => handleFilterModelChange(filterModel)}
         components={{
           Toolbar: GridToolbar,
-          // Pagination: CustomPagination,
           NoRowsOverlay: CustomNoRowsOverlay
-          // LoadingOverlay: LinearProgress
         }}
         componentsProps={{
           toolbar: {
