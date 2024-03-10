@@ -1,16 +1,14 @@
-// ** To use core palette, uncomment the below import
 // import corePalette from 'src/@core/theme/palette'
-// ** To use mode (light/dark), skin(default/bordered/semi-dark), direction(ltr/rtl), etc. for conditional styles, uncomment below line
+
 // import { useSettings } from 'src/@core/hooks/useSettings'
 const UserThemeOptions = () => {
-  // ** To use mode (light/dark), skin(default/bordered/semi-dark), direction(ltr/rtl), etc. for conditional styles, uncomment below line
-  // const { settings } = useSettings()
-  // ** To use mode (light/dark), skin(default/bordered/semi-dark), direction(ltr/rtl), etc. for conditional styles, uncomment below line
-  // const { mode, skin } = settings
-  // ** To use core palette, uncomment the below line
-  // const palette = corePalette(mode, skin)
-  return {
-    /*
+    // const { settings } = useSettings()
+
+    // const { mode, skin } = settings
+
+    // const palette = corePalette(mode, skin)
+    return {
+        /*
     palette:{
       primary: {
         light: '#787EFF',
@@ -168,7 +166,7 @@ const UserThemeOptions = () => {
       appBar: 1200,
       drawer: 1100
     } */
-  }
+    }
 }
 
 export default UserThemeOptions

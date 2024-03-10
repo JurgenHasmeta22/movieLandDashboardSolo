@@ -1,26 +1,26 @@
-// ** MUI Imports
+
 import Button from '@mui/material/Button'
 import { styled } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 
-// ** Icons Imports
+
 import CircleOutline from 'mdi-material-ui/CircleOutline'
 
-// ** Util Import
+
 import { hexToRGBA } from 'src/@core/utils/hex-to-rgba'
 
-// ** Custom Components Imports
+
 import CustomChip from 'src/@core/components/mui/chip'
 
-// ** Styled Component for the wrapper of whole component
+
 const BoxWrapper = styled(Box)(({ theme }) => ({
   position: 'relative',
   padding: theme.spacing(12, 6, 6),
   borderRadius: theme.shape.borderRadius
 }))
 
-// ** Styled Component for the wrapper of all the features of a plan
+
 const BoxFeature = styled(Box)(({ theme }) => ({
   marginTop: theme.spacing(5),
   marginBottom: theme.spacing(5),
@@ -30,7 +30,7 @@ const BoxFeature = styled(Box)(({ theme }) => ({
 }))
 
 const PlanDetails = props => {
-  // ** Props
+  
   const { plan, data } = props
 
   const renderFeatures = () => {

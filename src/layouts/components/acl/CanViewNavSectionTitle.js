@@ -1,17 +1,14 @@
-// ** React Imports
-import { useContext } from 'react'
+import { useContext } from "react"
 
-// ** Component Imports
-import { AbilityContext } from 'src/layouts/components/acl/Can'
+s
+import { AbilityContext } from "src/layouts/components/acl/Can"
 
 const CanViewNavSectionTitle = props => {
-  // ** Props
-  const { children, navTitle } = props
+    const { children, navTitle } = props
 
-  // ** Hook
-  const ability = useContext(AbilityContext)
+    const ability = useContext(AbilityContext)
 
-  return ability && ability.can(navTitle?.action, navTitle?.subject) ? <>{children}</> : null
+    return ability && ability.can(navTitle?.action, navTitle?.subject) ? <>{children}</> : null
 }
 
 export default CanViewNavSectionTitle

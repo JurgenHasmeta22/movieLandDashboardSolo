@@ -1,39 +1,34 @@
-// ** Next Import
-import Link from 'next/link'
+import Link from "next/link"
 
-// ** MUI Imports
-import Box from '@mui/material/Box'
-import Typography from '@mui/material/Typography'
-import { styled, useTheme } from '@mui/material/styles'
+import Box from "@mui/material/Box"
+import Typography from "@mui/material/Typography"
+import { styled, useTheme } from "@mui/material/styles"
 
-// ** Theme Config Import
-import themeConfig from 'src/configs/themeConfig'
+import themeConfig from "src/configs/themeConfig"
 
-const StyledLink = styled('a')(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  textDecoration: 'none',
-  marginRight: theme.spacing(8)
+const StyledLink = styled("a")(({ theme }) => ({
+    display: "flex",
+    alignItems: "center",
+    textDecoration: "none",
+    marginRight: theme.spacing(8)
 }))
 
 const AppBarContent = props => {
-  // ** Props
-  const {
-    horizontalAppBarContent: userHorizontalAppBarContent,
-    horizontalAppBarBranding: userHorizontalAppBarBranding
-  } = props
+    const {
+        horizontalAppBarContent: userHorizontalAppBarContent,
+        horizontalAppBarBranding: userHorizontalAppBarBranding
+    } = props
 
-  // ** Hooks
-  const theme = useTheme()
+    const theme = useTheme()
 
-  return (
-    <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-      {userHorizontalAppBarBranding ? (
-        userHorizontalAppBarBranding(props)
-      ) : (
-        <Link href='/' passHref>
-          <StyledLink>
-            {/* <svg width={40} fill='none' height={22} viewBox='0 0 268 150' xmlns='http://www.w3.org/2000/svg'>
+    return (
+        <Box sx={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            {userHorizontalAppBarBranding ? (
+                userHorizontalAppBarBranding(props)
+            ) : (
+                <Link href='/' passHref>
+                    <StyledLink>
+                        {/* <svg width={40} fill='none' height={22} viewBox='0 0 268 150' xmlns='http://www.w3.org/2000/svg'>
               <rect
                 rx='25.1443'
                 width='50.2886'
@@ -103,15 +98,15 @@ const AppBarContent = props => {
                 </linearGradient>
               </defs>
             </svg> */}
-            <Typography variant='h6' sx={{ ml: 2, fontWeight: 700, lineHeight: 1.2 }}>
-              {themeConfig.templateName}
-            </Typography>
-          </StyledLink>
-        </Link>
-      )}
-      {userHorizontalAppBarContent ? userHorizontalAppBarContent(props) : null}
-    </Box>
-  )
+                        <Typography variant='h6' sx={{ ml: 2, fontWeight: 700, lineHeight: 1.2 }}>
+                            {themeConfig.templateName}
+                        </Typography>
+                    </StyledLink>
+                </Link>
+            )}
+            {userHorizontalAppBarContent ? userHorizontalAppBarContent(props) : null}
+        </Box>
+    )
 }
 
 export default AppBarContent

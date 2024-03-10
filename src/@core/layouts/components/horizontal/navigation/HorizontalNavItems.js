@@ -1,21 +1,20 @@
-// ** Custom Navigation Components
-import HorizontalNavLink from './HorizontalNavLink'
-import HorizontalNavGroup from './HorizontalNavGroup'
+import HorizontalNavLink from "./HorizontalNavLink"
+import HorizontalNavGroup from "./HorizontalNavGroup"
 
 const resolveComponent = item => {
-  if (item.children) return HorizontalNavGroup
+    if (item.children) return HorizontalNavGroup
 
-  return HorizontalNavLink
+    return HorizontalNavLink
 }
 
 const HorizontalNavItems = props => {
-  const RenderMenuItems = props.horizontalNavItems?.map((item, index) => {
-    const TagName = resolveComponent(item)
+    const RenderMenuItems = props.horizontalNavItems?.map((item, index) => {
+        const TagName = resolveComponent(item)
 
-    return <TagName {...props} key={index} item={item} />
-  })
+        return <TagName {...props} key={index} item={item} />
+    })
 
-  return <>{RenderMenuItems}</>
+    return <>{RenderMenuItems}</>
 }
 
 export default HorizontalNavItems

@@ -1,5 +1,5 @@
 const Translations = ({ text }) => {
-  return <>{text}</>
+    return <>{text}</>
 }
 
 export default Translations
